@@ -43,14 +43,52 @@ class ModelTrainer:
                 "Decision Tree": DecisionTreeRegressor(),
                 "Gradient Boosting": GradientBoostingRegressor(),
                 "Linear Regression": LinearRegression(),
-                "K-Neighbour Classification": KNeighborsRegressor(),
-                "XGBClassifier": XGBRegressor(),
+                "K-Neighbor Regressor": KNeighborsRegressor(),
+                "XGBRegressor": XGBRegressor(),
                 "CatBoosting Classifier": CatBoostRegressor(verbose=0), # training logs off krne k liye
-                "AdaBoost Classifier": AdaBoostRegressor(),
+                "AdaBoost Regressor": AdaBoostRegressor(),
+            }
+            ## Parametise tuning isko yaha nhi likh kar sirect .yml filebana kar usme bhi likh skte hai
+            params = {
+                "Decision Tree": {
+                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    # 'splitter':['best', 'random'],
+                    # 'max_features':['sqrt', 'log2'],
+                },
+                "Random Forest": {
+                    # 'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    
+                    # 'max_features':['sqrt', 'log2', 'None'],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                },
+                "Gradient Boosting": {
+                    # 'loss':['squared_error', 'huber', 'absolute_error', 'quantile'],
+                    'learning_rate':[.1, .01, .05, .001],
+                    'subsample':[0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
+                    # 'criterion':['squared_error', 'friedman_mse'],
+                    # 'max_features':['auto', 'sqrt', 'log2'],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                },
+                "Linear Regression": {},
+                "K-Neighbor Regressor": {
+                    'n_neighbors':[5, 7, 9, 11],
+                    # 'weights':['uniform', 'distance'],
+                    # 'algorithm':['ball_tree', 'kd_tree', 'brute']
+                },
+                "XGBRegressor":{
+                    'learning_rate':[.1, .01, .05, .001],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                },
+                "CatBoosting Classifier": {},
+                "AdaBoost Regressor":{
+                    'learning_rate':[.1, .01, .05, .001],
+                    # 'loss':['linear', 'square', 'exponential'],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                }
             }
 
             # we will create evaluate_model function in util.py
-            model_report:dict=evaluate_model(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models)
+            model_report:dict=evaluate_model(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models, param=params)
 
             ## To get best model score from dict
             best_model_score = max(sorted(model_report.values()))

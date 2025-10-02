@@ -52,7 +52,7 @@ class DataTransformation:
                 steps=[
                     ("imputer", SimpleImputer(strategy="most_frequent")),
                     ("one_hot_encoder", OneHotEncoder()),
-                    ("scaler", StandardScaler(with_mean=False))  # change => with_mean = Flase
+                    ("scaler", StandardScaler(with_mean=False))  # change => with_mean = Flase 
                 ]
 
             )
