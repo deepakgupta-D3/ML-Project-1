@@ -110,7 +110,7 @@ class ModelTrainer:
             )
 
             # returning both best model name and r2_score
-            return best_model_name, best_model_score
+            return best_model_score
 
 
         except Exception as e:
